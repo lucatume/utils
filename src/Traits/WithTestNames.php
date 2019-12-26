@@ -10,6 +10,7 @@
 namespace tad\Utils\Traits;
 
 use PHPUnit\Framework\TestCase;
+use function tad\functions\slug;
 
 trait WithTestNames
 {
@@ -27,7 +28,7 @@ trait WithTestNames
 
         foreach ($trace as $entry) {
             if (isset($entry['object'], $entry['function']) && $entry['object'] instanceof TestCase) {
-                return $entry['function'];
+                return slug($entry['class'], '_') .'__'. $entry['function'];
             }
         }
 
