@@ -2,10 +2,10 @@
 /**
  * String utility functions.
  *
- * @package tad\functions;
+ * @package lucatume\functions;
  */
 
-namespace tad\functions;
+namespace lucatume\functions;
 
 /**
  * Create the slug version of a string.
@@ -13,15 +13,15 @@ namespace tad\functions;
  * This will also convert `camelCase` to `camel-case`.
  *
  * @param string $string The string to create a slug for.
- * @param string $sep    The separator character to use, defaults to `-`.
- * @param bool   $let    Whether to let other common separators be or not.
+ * @param string $sep The separator character to use, defaults to `-`.
+ * @param bool $let Whether to let other common separators be or not.
  *
  * @return string The slug version of the string.
  */
 function slug($string, $sep = '-', $let = false)
 {
-    $unquotedSeps = $let ? [ '-', '_', $sep ] : [ $sep ];
-    $seps         = implode('', array_map(static function ($s) {
+    $unquotedSeps = $let ? ['-', '_', $sep] : [$sep];
+    $seps = implode('', array_map(static function ($s) {
         return preg_quote($s, '~');
     }, array_unique($unquotedSeps)));
 
@@ -68,17 +68,17 @@ function slug($string, $sep = '-', $let = false)
 /**
  * Renders a template string using Handlebars-compatible syntax.
  *
- * @since TBD
- *
- * @param string              $template The string template to render.
- * @param array<string,mixed> $data     The data that should be used to render the template, elements can also be
+ * @param string $template The string template to render.
+ * @param array<string,mixed> $data The data that should be used to render the template, elements can also be
  *                                      `callable` that will be passed any argument defined by the `$fnArgs` parameter.
- * @param mixed[]             $fnArgs   An optional array of arguments that will be passed to each `$data` element that
+ * @param mixed[] $fnArgs An optional array of arguments that will be passed to each `$data` element that
  *                                      is a callable.
  *
  * @return string The string template, rendered using te provided data.
  *
  * @throws \InvalidArgumentException If the template fails to compile.
+ * @since TBD
+ *
  */
 function renderString($template, array $data = [], array $fnArgs = [])
 {
@@ -116,4 +116,62 @@ function renderString($template, array $data = [], array $fnArgs = [])
     );
 
     return str_replace($search, $replace, $template);
+}
+
+/**
+ * Colorize a string.
+ *
+ * @param string $string The string to colorize.
+ * @param string|null $foreground The foreground color code, e.g. `white` or `light_gray`.
+ * @param string|null $background The background color code, e.g. `red` or `light_gray`.
+ *
+ * @return string The colorized string.
+ */
+function colorize(string $string, $foreground = null, $background = null): string
+{
+    static $foregroundColors = [
+        'black' => '0;30',
+        'dark_gray' => '1;30',
+        'blue' => '0;34',
+        'light_blue' => '1;34',
+        'green' => '0;32',
+        'light_green' => '1;32',
+        'cyan' => '0;36',
+        'light_cyan' => '1;36',
+        'red' => '0;31',
+        'light_red' => '1;31',
+        'purple' => '0;35',
+        'light_purple' => '1;35',
+        'brown' => '0;33',
+        'yellow' => '1;33',
+        'light_gray' => '0;37',
+        'white' => '1;37'
+    ];
+
+    static $backgroundColors = [
+        'black' => '40',
+        'red' => '41',
+        'green' => '42',
+        'yellow' => '43',
+        'blue' => '44',
+        'magenta' => '45',
+        'cyan' => '46',
+        'light_gray' => '47'
+    ];
+
+    $colored_string = '';
+
+    // Check if given foreground color found
+    if (isset($foregroundColors[$foreground])) {
+        $colored_string .= "\033[" . $foregroundColors[$foreground] . 'm';
+    }
+    // Check if given background color found
+    if (isset($backgroundColors[$background])) {
+        $colored_string .= "\033[" . $backgroundColors[$background] . 'm';
+    }
+
+    // Add string and end coloring
+    $colored_string .= $string . "\033[0m";
+
+    return $colored_string;
 }

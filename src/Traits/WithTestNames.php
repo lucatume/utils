@@ -4,13 +4,13 @@
  *
  * @since   TBD
  *
- * @package tad\TestUtils
+ * @package lucatume\TestUtils
  */
 
-namespace tad\Utils\Traits;
+namespace lucatume\Utils\Traits;
 
 use PHPUnit\Framework\TestCase;
-use function tad\functions\slug;
+use function lucatume\functions\slug;
 
 trait WithTestNames
 {

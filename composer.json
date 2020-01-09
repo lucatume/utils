@@ -18,7 +18,7 @@
       "src/tests.php"
     ],
     "psr-4": {
-      "tad\\Utils\\": "src"
+      "lucatume\\Utils\\": "src"
     }
   },
   "autoload-dev": {

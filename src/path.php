@@ -2,10 +2,10 @@
 /**
  * Path utility functions.
  *
- * @package tad\functions;
+ * @package lucatume\functions;
  */
 
-namespace tad\functions;
+namespace lucatume\functions;
 
 /**
  * Normalizes a path to the Unix standard.
@@ -63,7 +63,7 @@ function pathTail($path, $length = 2)
             $basename = basename($path);
             $path = dirname($path);
             return $basename;
-        }, range(1, $length?:2))
+        }, range(1, $length ?: 2))
     ))) ?: $path;
 }
 
@@ -155,7 +155,15 @@ function pathResolve($path, $root = null)
         return false;
     }
 
-    if (false !== ( realpath($path) === $path ) && file_exists($path)) {
+    if (strpos($path, '~') !== false) {
+        try {
+            $path = str_replace('~', home(), $path);
+        } catch (\RuntimeException $e) {
+            return false;
+        }
+    }
+
+    if (false !== (realpath($path) === $path) && file_exists($path)) {
         return pathUntrailslashit(pathNormalize($path));
     }
 
@@ -166,4 +174,36 @@ function pathResolve($path, $root = null)
     }
 
     return $root ? pathUntrailslashit(pathNormalize($realpath)) : false;
+}
+
+/**
+ * Returns the absolute path to the current user HOME directory.
+ *
+ * @param null|string $path An optional path to append to the current user HOME path.
+ * @return string The absolute path to the current user HOME directory.
+ *
+ * @throws \RuntimeException If the current user HOME directory PATH cannot be resolved.
+ */
+function home($path = null)
+{
+    $home = $_SERVER['HOME'] ?? null;
+
+    if ($home === null) {
+        $homeDrive = $_SERVER['HOMEDRIVE'] ?? null;
+        $homePath = $_SERVER['HOMEPATH'] ?? null;
+
+        if ($homeDrive === null || $homePath === null) {
+            throw new \RuntimeException('Cannot resolve HOME directory path.');
+        }
+
+        $home = pathJoin($homeDrive, $homePath);
+    }
+
+    if ($home === null) {
+        throw new \RuntimeException('Cannot resolve HOME directory path.');
+    }
+
+    $home = rtrim($home, DIRECTORY_SEPARATOR);
+
+    return $path === null ? $home : pathJoin($home, $path);
 }

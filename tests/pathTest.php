@@ -1,6 +1,6 @@
 <?php
 
-namespace tad\functions;
+namespace lucatume\functions;
 
 use PHPUnit\Framework\TestCase;
 
