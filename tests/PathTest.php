@@ -1,10 +1,10 @@
 <?php
 
-namespace lucatume\functions;
+namespace lucatume\Utils;
 
 use PHPUnit\Framework\TestCase;
 
-class pathTest extends TestCase
+class PathTest extends TestCase
 {
 
     public function pathJoinDataSet()
@@ -22,7 +22,7 @@ class pathTest extends TestCase
      */
     function test_pathJoin($expected, ...$input)
     {
-        $this->assertEquals($expected, pathJoin(...$input));
+        $this->assertEquals($expected, Path::join(...$input));
     }
 
     public function normalizePathDataSet()
@@ -41,7 +41,7 @@ class pathTest extends TestCase
      */
     function test_normalizePath($input, $expected)
     {
-        $this->assertEquals($expected, pathNormalize($input));
+        $this->assertEquals($expected, Path::normalize($input));
     }
 
     public function pathTailDataSet()
@@ -61,7 +61,7 @@ class pathTest extends TestCase
      */
     public function test_pathTail($input, $expected, $length = null)
     {
-        $this->assertEquals($expected, pathTail($input, $length));
+        $this->assertEquals($expected, Path::tail($input, $length));
     }
 
     public function renderStringDataProvider()
@@ -92,18 +92,18 @@ class pathTest extends TestCase
     public function findParentDirectoryThatDataSet()
     {
         yield 'same' => [
-            data('folder-structures/wp-struct-1/wp'),
-            data('folder-structures/wp-struct-1/wp')
+            Tests::data('folder-structures/wp-struct-1/wp'),
+            Tests::data('folder-structures/wp-struct-1/wp')
         ];
 
         yield 'immediate_parent' => [
-            data('folder-structures/wp-struct-1/wp/wp-content'),
-            data('folder-structures/wp-struct-1/wp')
+            Tests::data('folder-structures/wp-struct-1/wp/wp-content'),
+            Tests::data('folder-structures/wp-struct-1/wp')
         ];
 
         yield 'removed_parent' => [
-            data('folder-structures/wp-struct-1/wp/wp-content/plugins/test-plugin'),
-            data('folder-structures/wp-struct-1/wp')
+            Tests::data('folder-structures/wp-struct-1/wp/wp-content/plugins/test-plugin'),
+            Tests::data('folder-structures/wp-struct-1/wp')
         ];
 
         yield 'not_available' => [
@@ -120,40 +120,41 @@ class pathTest extends TestCase
         $check = static function ($dir) {
             return file_exists($dir . '/wp-load.php');
         };
-        $this->assertEquals($expected, findParentDirThat($input, $check));
+        $this->assertEquals($expected, Path::findParentThat($input, $check));
     }
 
     public function findChildDirectoryThatDataSet()
     {
         yield 'same' => [
-            data('folder-structures/wp-struct-1/wp'),
-            data('folder-structures/wp-struct-1/wp')
+            Tests::data('folder-structures/wp-struct-1/wp'),
+            Tests::data('folder-structures/wp-struct-1/wp')
         ];
 
         yield 'immediate_child' => [
-            data('folder-structures/wp-struct-1'),
-            data('folder-structures/wp-struct-1/wp')
+            Tests::data('folder-structures/wp-struct-1'),
+            Tests::data('folder-structures/wp-struct-1/wp')
         ];
 
         yield 'removed_child' => [
-            data('folder-structures'),
-            data('folder-structures/wp-struct-3')
+            Tests::data('folder-structures'),
+            Tests::data('folder-structures/wp-struct-3')
         ];
 
         yield 'not_available' => [
-            data('folder-structures/empty'),
+            Tests::data('folder-structures/empty'),
             false
         ];
     }
 
     /**
      * @dataProvider findChildDirectoryThatDataSet
+     * @param $input
      */
     public function test_findChildDirThat($input, $expected)
     {
         $check = static function ($dir) {
             return file_exists($dir . '/wp-load.php');
         };
-        $this->assertEquals($expected, findChildDirThat($input, $check));
+        $this->assertEquals($expected, Path::findChildThat($input, $check));
     }
 }

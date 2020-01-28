@@ -2,6 +2,7 @@
   "name": "lucatume/utils",
   "description": "Utility functions.",
   "version": "0.1.0",
+  "license": "MIT",
   "require": {
     "php": ">=5.6",
     "ext-iconv": "*",
@@ -12,11 +13,6 @@
     "phpunit/phpunit": "^6.0"
   },
   "autoload": {
-    "files": [
-      "src/path.php",
-      "src/string.php",
-      "src/tests.php"
-    ],
     "psr-4": {
       "lucatume\\Utils\\": "src"
     }

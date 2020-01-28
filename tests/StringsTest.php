@@ -1,10 +1,10 @@
 <?php
 
-namespace lucatume\functions;
+namespace lucatume\Utils;
 
 use PHPUnit\Framework\TestCase;
 
-class stringTest extends TestCase
+class StringsTest extends TestCase
 {
     /**
      * Test slugify
@@ -12,7 +12,7 @@ class stringTest extends TestCase
      */
     public function test_slugify($input, $expected, $sep = null, $let = null)
     {
-        $this->assertEquals($expected, slug(...array_slice(func_get_args(), 1)));
+        $this->assertEquals($expected, Strings::slug(...array_slice(func_get_args(), 1)));
     }
 
     public function slugifyDataProvider()
@@ -81,7 +81,7 @@ class stringTest extends TestCase
      */
     public function test_render_string($template, $data, $fnArgs, $expected)
     {
-        $this->assertEquals($expected, renderString($template, $data, $fnArgs));
+        $this->assertEquals($expected, Strings::template($template, $data, $fnArgs));
     }
 
     public function renderStringDataProvider()

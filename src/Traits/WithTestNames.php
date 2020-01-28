@@ -2,16 +2,19 @@
 /**
  * Methods to "look around" inside test cases and fetch meta test information.
  *
- * @since   TBD
- *
- * @package lucatume\TestUtils
+ * @package lucatume\Utils\Traits
  */
 
 namespace lucatume\Utils\Traits;
 
 use PHPUnit\Framework\TestCase;
-use function lucatume\functions\slug;
+use lucatume\Utils\String;
 
+/**
+ * Trait WithTestNames
+ *
+ * @package lucatume\Utils\Traits
+ */
 trait WithTestNames
 {
 
