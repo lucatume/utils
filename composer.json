@@ -1,25 +1,25 @@
 {
-  "name": "lucatume/utils",
-  "description": "Utility functions.",
-  "version": "0.1.0",
-  "license": "MIT",
-  "require": {
-    "php": ">=5.6",
-    "ext-iconv": "*",
-    "ext-json": "*",
-    "zordius/lightncandy": "^1.2"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^6.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "lucatume\\Utils\\": "src"
+    "name": "lucatume/utils",
+    "description": "Utility functions.",
+    "version": "0.1.0",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.6",
+        "ext-iconv": "*",
+        "ext-json": "*",
+        "zordius/lightncandy": "^1.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "lucatume\\Utils\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "files": [
+            "tests/_boostrap.php"
+        ]
     }
-  },
-  "autoload-dev": {
-    "files": [
-      "tests/_boostrap.php"
-    ]
-  }
 }
